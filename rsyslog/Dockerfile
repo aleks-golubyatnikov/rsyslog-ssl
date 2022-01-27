@@ -13,3 +13,5 @@ COPY $PATH_CERT/ /etc/pki/rsyslog/
 RUN echo '$template AgentLogsTLS, "'$PATH_LOGS_INSIDE'/%FROMHOST-IP%/%PROGRAMNAME%.log" \n \
     *.* ?AgentLogsTLS \n \
     &~ ' >> /etc/rsyslog.conf
+
+ENTRYPOINT ["rsyslogd", "-n"]
