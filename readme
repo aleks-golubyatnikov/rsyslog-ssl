@@ -45,13 +45,13 @@ docker-compose stop
 $DefaultNetstreamDriver gtls
 
 $DefaultNetstreamDriverCAFile /etc/pki/rsyslog/ca.pem
-$DefaultNetstreamDriverCertFile /etc/pki/rsyslog/rslreverb-cert.pem
-$DefaultNetstreamDriverKeyFile /etc/pki/rsyslog/rslreverb-key.pem
+$DefaultNetstreamDriverCertFile /etc/pki/rsyslog/rsyslog-server-cert.pem
+$DefaultNetstreamDriverKeyFile /etc/pki/rsyslog/rsyslog-server-key.pem
 
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 
 $ActionSendStreamDriverAuthMode x509/name
-$ActionSendStreamDriverPermittedPeer server.com
+$ActionSendStreamDriverPermittedPeer rsyslog-server
 $ActionSendStreamDriverMode 1
 
 kern.*                                              @@rsyslog-server.com:10514
