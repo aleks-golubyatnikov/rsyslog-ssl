@@ -42,25 +42,16 @@ docker-compose up -d
 docker-compose stop
 
 #client config lines
-# ...............
-# make gtls driver the default
 $DefaultNetstreamDriver gtls
 
-# certificate files
 $DefaultNetstreamDriverCAFile /etc/pki/rsyslog/ca.pem
 $DefaultNetstreamDriverCertFile /etc/pki/rsyslog/rslreverb-cert.pem
 $DefaultNetstreamDriverKeyFile /etc/pki/rsyslog/rslreverb-key.pem
 
-#### GLOBAL DIRECTIVES ####
-
-# Use default timestamp format
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 
-# gtls Network Stream Driver
-#  x509/name - certificate validation and subject name authentication 
-#  http://www.rsyslog.com/doc/ns_gtls.html
 $ActionSendStreamDriverAuthMode x509/name
 $ActionSendStreamDriverPermittedPeer server.com
-$ActionSendStreamDriverMode 1 # run driver in TLS-only mode
+$ActionSendStreamDriverMode 1
 
 kern.*                                              @@rsyslog-server.com:10514
