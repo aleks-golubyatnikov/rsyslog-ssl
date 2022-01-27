@@ -10,8 +10,4 @@ RUN mv /etc/rsyslog.conf /etc/rsyslog.example
 COPY $PATH_CONFIG/rsyslog.conf /etc/rsyslog.conf
 COPY $PATH_CERT/ /etc/pki/rsyslog/
 
-RUN echo '$template AgentLogsTLS, "'$PATH_LOGS_INSIDE'/%FROMHOST-IP%/%PROGRAMNAME%.log" \n \
-    *.* ?AgentLogsTLS \n \
-    &~ ' >> /etc/rsyslog.conf
-
 ENTRYPOINT ["rsyslogd", "-n"]
