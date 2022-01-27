@@ -1,6 +1,10 @@
 #Docker
 #Build image
-docker build -h rsyslog-tls.com -t dev-syslog .
+docker build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ -t dev-syslog-tls  .
+
+
+
+
 
 
 
