@@ -1,10 +1,21 @@
 #Docker
 #build image
-docker build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ -t dev-syslog-tls .
+docker build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ --build-arg PATH_LOGS_INSIDE=/var/logs/agentlogs-tls/ -t dev-syslog-tls .
 
 #run
-docker run -it --rm -h rsyslog-tls.com --privileged --name rsyslog-tls dev-syslog-tls
+docker run -it --rm -h rsyslog-server.com --privileged --name rsyslog-tls dev-syslog-tls
 
+#cert
+certtool --generate-privkey --outfile rsyslog-server-key.pem --bits 2048
+certtool --generate-request --load-privkey rsyslog-server-key.pem --outfile request.pem
+ - common name: rsyslog-server.com
+ - Is this a TLS web client certificate? (y/N): y
+ - Is this also a TLS web server certificate? (y/N): y
+
+certtool --generate-certificate --load-request request.pem --outfile rsyslog-server-cert.pem --load-ca-certificate ca.pem --load-ca-privkey ca-key.pem
+ - Enter a dnsName of the subject of the certificate: rsyslog-server.com
+ - Is this a TLS web client certificate? (y/N): y
+ - Is this also a TLS web server certificate? (y/N): y
 
 
 
