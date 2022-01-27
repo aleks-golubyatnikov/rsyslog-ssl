@@ -54,4 +54,4 @@ $ActionSendStreamDriverAuthMode x509/name
 $ActionSendStreamDriverPermittedPeer rsyslog-server
 $ActionSendStreamDriverMode 1
 
-kern.*                                              @@rsyslog-server.com:10514
+*.* @@rsyslog-server.com:10514
