@@ -1,0 +1,69 @@
+#Docker
+#Build image
+docker build -h rsyslog-tls.com -t dev-syslog .
+
+
+
+#Server
+#Install rsyslog rsyslog-gnutls
+apt-get update && apt-get install rsyslog rsyslog-gnutls 
+apt-get install gnutls-bin
+
+#1. CA
+#RSA private key
+certtool --generate-privkey --outfile ca-key.pem
+
+#generate-self-signed cert
+generate-self-signed --load-privkey ca-key.pem --outfile ca.pem
+
+#2. Server
+#RSA private key - rsyslog
+certtool --generate-privkey --outfile rslserver-key.pem --bits 2048
+
+#certificate request
+certtool --generate-request --load-privkey rslserver-key.pem --outfile request.pem
+#fields must be set
+Need to be
+ - Common name
+ - Organization name
+ - Country name
+
+ - Is this a TLS web client certificate? (y/N): y
+ - Is this also a TLS web server certificate? (y/N): y
+
+#generate certificate
+certtool --generate-certificate --load-request request.pem --outfile rslserver-cert.pem --load-ca-certificate ca.pem --load-ca-privkey ca-key.pem 
+
+#copy cert
+/etc/pki/rsyslog/ca.pem
+/etc/pki/rsyslog/rslreverb-cert.pem
+/etc/pki/rsyslog/rslreverb-key.pem
+
+#edit /etc/rsyslog.conf
+################### REMOTE LOGGING BEGIN #########################
+# Increase the amount of open files rsyslog is allowed, which includes open tcp sockets
+# This is important if there are many clients.
+# http://www.rsyslog.com/doc/rsconf1_maxopenfiles.html
+$MaxOpenFiles 2048
+
+# make gtls driver the default
+$DefaultNetstreamDriver gtls
+
+# certificate files generated on RHEL6 and stored in /root
+$DefaultNetstreamDriverCAFile /etc/pki/rsyslog/ca.pem
+$DefaultNetstreamDriverCertFile /etc/pki/rsyslog/rslserver-cert.pem
+$DefaultNetstreamDriverKeyFile /etc/pki/rsyslog/rslserver-key.pem
+
+# Provides TCP syslog reception
+# for parameters see http://www.rsyslog.com/doc/imtcp.html
+module(load="imtcp"
+       MaxSessions="2000"
+       StreamDriver.mode="1"
+       StreamDriver.authmode="x509/name"
+       PermittedPeer="example.com"
+       )
+input(type="imtcp" port="10514" name="tcp-tls")
+################### REMOTE LOGGING END #########################
+
+#listening ports -- 10514
+ss -tulpan

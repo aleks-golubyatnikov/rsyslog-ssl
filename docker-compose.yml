@@ -1,0 +1,15 @@
+version: "3.7"
+ 
+services: 
+  syslogserver: 
+    build: rsyslog/ 
+    hostname: syslog 
+    container_name: rsyslog 
+    restart: always
+    volumes: 
+      - "/var/logs:/var/log" 
+    ports: 
+      - 514:514
+      - 514:514/udp
+    cap_add:
+      - SYSLOG
