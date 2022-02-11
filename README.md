@@ -28,7 +28,7 @@ docker run --restart always -d -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v
 ```
 ### Docker Compose: 
 ```
-docker-compose build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ --build-arg PATH_LOGS_INSIDE=/var/log/agentlogs-tls/
+docker-compose build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/
 docker-compose up -d
 docker-compose stop
 ```
