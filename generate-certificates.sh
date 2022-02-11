@@ -40,5 +40,3 @@ sed -i "s/%%ca.pem%%/ca.crt.pem/" $CONF_PATH/rsyslog.conf
 sed -i "s/%%server-cert.pem%%/$SERVER_LOCAL.crt.pem/" $CONF_PATH/rsyslog.conf
 sed -i "s/%%server-key.pem%%/$SERVER_LOCAL.key.pem/" $CONF_PATH/rsyslog.conf
 sed -i "s/%%_PATH_LOGS_%%/$LOG_CONT/" $CONF_PATH/rsyslog.conf
-
-###
