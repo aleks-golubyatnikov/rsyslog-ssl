@@ -22,4 +22,3 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1 = ${ENV::SERVER_DNS_1}
 DNS.2 = ${ENV::SERVER_DNS_2}
-#
