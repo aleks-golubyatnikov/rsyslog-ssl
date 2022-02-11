@@ -39,3 +39,6 @@ openssl rsa -in $CERT_PATH/$CLIENT_LOCAL.key -text > $CERT_PATH/$CLIENT_LOCAL.ke
 sed -i "s/%%ca.pem%%/ca.crt.pem/" $CONF_PATH/rsyslog.conf
 sed -i "s/%%server-cert.pem%%/$SERVER_LOCAL.crt.pem/" $CONF_PATH/rsyslog.conf
 sed -i "s/%%server-key.pem%%/$SERVER_LOCAL.key.pem/" $CONF_PATH/rsyslog.conf
+sed -i "s/%%PATH_LOGS%%/$PATH_LOGS/" $CONF_PATH/rsyslog.conf
+
+

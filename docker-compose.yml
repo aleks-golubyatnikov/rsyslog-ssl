@@ -4,7 +4,7 @@ services:
   syslogserver-tls: 
     build: rsyslog/ 
     hostname: ${SERVER_LOCAL} 
-    container_name: rsyslog-tls
+    container_name: ${CONTAINER_NAME}
     restart: always
     volumes: 
       - "/var/logs:/var/log" 
