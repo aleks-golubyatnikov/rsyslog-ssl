@@ -3,7 +3,7 @@ version: "3.7"
 services: 
   syslogserver-tls: 
     build: rsyslog/ 
-    hostname: rsyslog-server.com 
+    hostname: ${SERVER_LOCAL} 
     container_name: rsyslog-tls
     restart: always
     volumes: 

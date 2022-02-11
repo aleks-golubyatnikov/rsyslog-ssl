@@ -1,38 +1,54 @@
 ### Certificates:
 ```
-export CA_SERVER_LOCAL=internal.com
-export SERVER_LOCAL=linux01.internal.com
-export CERT_PATH=./rsyslog/certificates
-
-#CA
-openssl genrsa -out $CERT_PATH/ca.key 2048
-openssl req -new -key $CERT_PATH/ca.key -subj "/CN=$CA_SERVER_LOCAL" -config $CERT_PATH/ca.cnf -out $CERT_PATH/ca.csr
-openssl x509 -req -days 365 -in $CERT_PATH/ca.csr -signkey $CERT_PATH/ca.key -extensions req_ext -extfile $CERT_PATH/ca.cnf -outform PEM -out $CERT_PATH/ca.crt
-
-#convert (if neaded)
-openssl x509 -inform DER -outform PEM -in $CERT_PATH/ca.crt -out $CERT_PATH/ca.crt.pem
-
-#server
-openssl genrsa -out $CERT_PATH/$SERVER_LOCAL.key 2048
-openssl req -new -key $CERT_PATH/$SERVER_LOCAL.key -subj "/CN=$SERVER_LOCAL" -config $CERT_PATH/server.cnf -out $CERT_PATH/$SERVER_LOCAL.csr
-openssl x509 -req -days 365 -in $CERT_PATH/$SERVER_LOCAL.csr -CA $CERT_PATH/ca.crt -CAkey $CERT_PATH/ca.key -CAcreateserial -extensions req_ext -extfile $CERT_PATH/server.cnf -out $CERT_PATH/$SERVER_LOCAL.crt
-
-#convert (if neaded)
-openssl x509 -inform DER -outform PEM -in $CERT_PATH/$SERVER_LOCAL.crt -out $CERT_PATH/$SERVER_LOCAL.crt.pem
+chmod u+x ./generate-certificates.sh
+./generate-certificates.sh
+ls -la ./rsyslog/certificates/
+```
+### Export VARS
+```
+export $(cat .env | egrep -v "(^#.*|^$)" | xargs
 ```
 
-#Docker
-#build image
-docker build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ --build-arg PATH_LOGS_INSIDE=/var/log/agentlogs-tls/ -t dev-syslog-tls .
+### Docker:
+```
+docker build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ --build-arg PATH_LOGS_INSIDE=/var/log/agentlogs-tls/ -t $IMAGE_NAME .
 
 #run
-docker run -it --rm -h rsyslog-server.com --privileged --name rsyslog-tls dev-syslog-tls
-docker run -it --rm -h rsyslog-server.com --cap-add SYSLOG --privileged -v /var/logs:/var/log -p 10514:10514 --name rsyslog-tls dev-syslog-tls
-#background
-docker run --restart always -d -h rsyslog-server.com --cap-add SYSLOG --privileged -v /var/logs:/var/log -p 10514:10514 --name rsyslog-tls dev-syslog-tls
+docker run -it --rm -h $SERVER_LOCAL --privileged --name $CONTAINER_NAME dev-syslog-tls
+docker run -it --rm -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:/var/log -p 10514:10514 --name $CONTAINER_NAME $IMAGE_NAME
 
-#cert
-#ca
+#background
+docker run --restart always -d -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:/var/log -p 10514:10514 --name $CONTAINER_NAME $IMAGE_NAME
+
+```
+### Docker Compose: 
+```
+docker-compose build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ --build-arg PATH_LOGS_INSIDE=/var/log/agentlogs-tls/
+docker-compose up -d
+docker-compose stop
+```
+### Client:
+
+#The actions are the same as for the server
+
+#client config lines
+$DefaultNetstreamDriver gtls
+
+$DefaultNetstreamDriverCAFile /etc/pki/rsyslog/ca.pem
+$DefaultNetstreamDriverCertFile /etc/pki/rsyslog/rsyslog-server-cert.pem
+$DefaultNetstreamDriverKeyFile /etc/pki/rsyslog/rsyslog-server-key.pem
+
+$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+
+$ActionSendStreamDriverAuthMode x509/name
+$ActionSendStreamDriverPermittedPeer rsyslog-server
+$ActionSendStreamDriverMode 1
+
+*.* @@rsyslog-server.com:10514
+
+### Cert tool (optional):
+
+#CA
 #rsa private key
 certtool --generate-privkey --outfile ca-key.pem
 
@@ -51,30 +67,3 @@ certtool --generate-certificate --load-request request.pem --outfile rsyslog-ser
  - Is this a TLS web client certificate? (y/N): y
  - Is this also a TLS web server certificate? (y/N): y
 
-#client
-#the actions are the same as for the server
-
-#Docker Compose
-#build
-docker-compose build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ --build-arg PATH_LOGS_INSIDE=/var/log/agentlogs-tls/
-
-#run
-docker-compose up -d
-
-#stop
-docker-compose stop
-
-#client config lines
-$DefaultNetstreamDriver gtls
-
-$DefaultNetstreamDriverCAFile /etc/pki/rsyslog/ca.pem
-$DefaultNetstreamDriverCertFile /etc/pki/rsyslog/rsyslog-server-cert.pem
-$DefaultNetstreamDriverKeyFile /etc/pki/rsyslog/rsyslog-server-key.pem
-
-$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
-
-$ActionSendStreamDriverAuthMode x509/name
-$ActionSendStreamDriverPermittedPeer rsyslog-server
-$ActionSendStreamDriverMode 1
-
-*.* @@rsyslog-server.com:10514
