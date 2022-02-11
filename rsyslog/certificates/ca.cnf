@@ -20,5 +20,5 @@ emailAddress_default            = $CA_EMAIL
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = $CA_DNS.1
-DNS.2 = $CA_DNS.2
+DNS.1 = $CA_DNS_1
+DNS.2 = $CA_DNS_2
