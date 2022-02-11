@@ -16,7 +16,7 @@ docker container stop rsyslog-tls
 
 ### Docker:
 ```
-docker build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ --build-arg PATH_LOGS_INSIDE=/var/log/agentlogs-tls/ -t $IMAGE_NAME .
+docker build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ -t $IMAGE_NAME .
 
 #run
 docker run -it --rm -h $SERVER_LOCAL --privileged --name $CONTAINER_NAME dev-syslog-tls
