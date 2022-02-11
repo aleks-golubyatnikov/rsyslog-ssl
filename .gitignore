@@ -1,4 +1,10 @@
 *.bak
 rsyslog/certificates/*.pem
 rsyslog/certificates/*.crt
+rsyslog/certificates/*.key
+rsyslog/certificates/*.csr
+rsyslog/certificates/*.srl
+
+
+
 
