@@ -1,2 +1,4 @@
 *.bak
-rsyslog/certificates/*.*
+rsyslog/certificates/*.pem
+rsyslog/certificates/*.crt
+
