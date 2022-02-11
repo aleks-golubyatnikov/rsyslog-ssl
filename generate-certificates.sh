@@ -23,3 +23,9 @@ openssl x509 -req -days 365 -in $CERT_PATH/$SERVER_LOCAL.csr -CA $CERT_PATH/ca.c
 
 #convert (if neaded)
 openssl x509 -outform PEM -in $CERT_PATH/$SERVER_LOCAL.crt -out $CERT_PATH/$SERVER_LOCAL.crt.pem
+openssl rsa -in $CERT_PATH/$SERVER_LOCAL.key -text > $CERT_PATH/$SERVER_LOCAL.key.pem
+
+#Config file (Docker)
+sed -i "s/%%ca.pem%%/ca.crt.pem/" $CONF_PATH/rsyslog.conf
+sed -i "s/%%server-cert.pem%%/$SERVER_LOCAL.crt.pem/" $CONF_PATH/rsyslog.conf
+sed -i "s/%%server-key.pem%%/$SERVER_LOCAL.key.pem/" $CONF_PATH/rsyslog.conf
