@@ -1,0 +1,25 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = req_ext
+
+[req_distinguished_name]
+countryName                     = Country Name (2 letter code)
+countryName_default             = ${ENV::COUNTRY}  
+stateOrProvinceName             = State or Province Name (full name)
+stateOrProvinceName_default     = ${ENV::PROVINCE}
+localityName                    = Locality Name (eg, city)
+localityName_default            = ${ENV::CITY}
+organizationalUnitName          = Organizational Unit Name (eg, section)
+organizationalUnitName_default  = ${ENV::ORG_NAME}
+commonName                      = Common Name (eg, your name or your server\'s hostname)
+commonName_default              = ${ENV::CLIENT_LOCAL}
+emailAddress                    = Email Address
+emailAddress_default            = ${ENV::CLIENT_EMAIL}
+
+[req_ext]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = ${ENV::CLIENT_DNS_1}
+DNS.2 = ${ENV::CLIENT_DNS_2}
+#

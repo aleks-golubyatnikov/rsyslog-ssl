@@ -6,7 +6,7 @@ ls -la ./rsyslog/certificates/
 ```
 ### Export VARS
 ```
-export $(cat .env | egrep -v "(^#.*|^$)" | xargs
+export $(cat .env | egrep -v "(^#.*|^$)" | xargs)
 ```
 
 ### Docker:
