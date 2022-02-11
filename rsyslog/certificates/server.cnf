@@ -22,3 +22,4 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1 = gitlab.internal.com
 DNS.2 = *.internal.com
+#
