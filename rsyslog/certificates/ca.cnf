@@ -4,13 +4,13 @@ req_extensions = req_ext
 
 [req_distinguished_name]
 countryName                     = Country Name (2 letter code)
-countryName_default             = ${ENV::CA_COUNTRY} 
+countryName_default             = ${ENV::COUNTRY} 
 stateOrProvinceName             = State or Province Name (full name)
-stateOrProvinceName_default     = ${ENV::CA_PROVINCE}
+stateOrProvinceName_default     = ${ENV::PROVINCE}
 localityName                    = Locality Name (eg, city)
-localityName_default            = ${ENV::CA_CITY}
+localityName_default            = ${ENV::CITY}
 organizationalUnitName          = Organizational Unit Name (eg, section)
-organizationalUnitName_default  = ${ENV::CA_ORG_NAME}
+organizationalUnitName_default  = ${ENV::ORG_NAME}
 commonName                      = Common Name (eg, your name or your server\'s hostname)
 commonName_default              = ${ENV::CA_SERVER_LOCAL}
 emailAddress                    = Email Address

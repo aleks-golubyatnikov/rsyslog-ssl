@@ -4,17 +4,17 @@ req_extensions = req_ext
 
 [req_distinguished_name]
 countryName                     = Country Name (2 letter code)
-countryName_default             = RU 
+countryName_default             = ${ENV::COUNTRY}  
 stateOrProvinceName             = State or Province Name (full name)
-stateOrProvinceName_default     = Moscow
+stateOrProvinceName_default     = ${ENV::PROVINCE}
 localityName                    = Locality Name (eg, city)
-localityName_default            = Moscow
+localityName_default            = ${ENV::CITY}
 organizationalUnitName          = Organizational Unit Name (eg, section)
-organizationalUnitName_default  = HomeCloud
+organizationalUnitName_default  = ${ENV::ORG_NAME}
 commonName                      = Common Name (eg, your name or your server\'s hostname)
-commonName_default              = gitlab.internal.com
+commonName_default              = ${ENV::SERVER_LOCAL}
 emailAddress                    = Email Address
-emailAddress_default            = aleks.golubyatnikov@gmail.com
+emailAddress_default            = ${ENV::SERVER_EMAIL}
 
 [req_ext]
 subjectAltName = @alt_names
