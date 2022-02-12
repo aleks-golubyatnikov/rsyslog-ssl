@@ -9,7 +9,7 @@ services:
     privileged: true
     volumes: 
       - "/var/logs:/var/log"
-    
+      - "/etc/pki/rsyslog-docker/:/etc/pki/rsyslog/"
     ports: 
       - ${TLS_PORT_HOST}:${TLS_PORT_CONTAINER}
     cap_add:

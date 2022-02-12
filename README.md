@@ -11,6 +11,12 @@ chmod u+x ./generate-certificates.sh ./generate-config.sh
 ```
 ./generate-config.sh
 ```
+
+### Copy certificates to local folder (in case of using VOLUME '/etc/pki/rsyslog/'):
+```
+/etc/pki/rsyslog-docker/ #on HOST machine
+```
+
 ### Docker:
 ```
 docker container stop $CONTAINER_NAME 
@@ -44,6 +50,10 @@ Certificates (CA.pem, certificate and server key) must be copied to the director
 ### Change Docker configuration:
 ```
 ./generate-config-exists-crt.sh
+```
+### Copy certificates to local folder (in case of using VOLUME '/etc/pki/rsyslog/'):
+```
+/etc/pki/rsyslog-docker/ #on HOST machine
 ```
 
 ### Docker:
