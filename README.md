@@ -1,9 +1,103 @@
-### Certificates:
+## 1: NO certificates:
+The variable file <.env> must be modified depending on the environment (#CA, #Server, #General blocks)
+
+### Generate certificates:
 ```
 chmod u+x ./generate-certificates.sh
 ./generate-certificates.sh
-ls -la ./rsyslog/certificates/
 ```
+
+### Change Docker configuration:
+```
+sed -i "s/%%ca.pem%%/ca.crt.pem/" $CONF_PATH/rsyslog.conf
+sed -i "s/%%server-cert.pem%%/$SERVER_LOCAL.crt.pem/" $CONF_PATH/rsyslog.conf
+sed -i "s/%%server-key.pem%%/$SERVER_LOCAL.key.pem/" $CONF_PATH/rsyslog.conf
+sed -i "s/%%_TLS_PORT_%%/$TLS_PORT_CONTAINER/" $CONF_PATH/rsyslog.conf
+```
+### Docker:
+```
+docker container stop $CONTAINER_NAME 
+docker build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ -t $IMAGE_NAME .
+
+#run
+docker run -it --rm -h $SERVER_LOCAL --privileged --name $CONTAINER_NAME dev-syslog-tls
+docker run -it --rm -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:/var/log -p $TLS_PORT_HOST:$TLS_PORT_CONTAINER --name $CONTAINER_NAME $IMAGE_NAME
+
+#run in background
+docker run --restart always -d -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:/var/log -p $TLS_PORT_HOST:$TLS_PORT_CONTAINER --name $CONTAINER_NAME $IMAGE_NAME
+
+```
+### Docker Compose: 
+```
+docker-compose build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/
+docker-compose up -d #background
+docker-compose stop
+```
+
+## 2: Using existing certificates:
+The variable file <.env> must be modified depending on the environment (#CA, #Server, #General blocks, #Existing certificates)
+
+### Load ENV
+```
+export $(cat .env | egrep -v "(^#.*|^$)" | xargs)
+```
+### Copy certificates:
+Certificates (CA.pem, certificate and server key) must be copied to the directory '.\rsyslog-ssl\rsyslog\certificates'
+
+### Change Docker configuration:
+```
+sed -i "s/%%ca.pem%%/$CA_NAME/" $CONF_PATH/rsyslog.conf
+sed -i "s/%%server-cert.pem%%/$SERVER_CRT_NAME/" $CONF_PATH/rsyslog.conf
+sed -i "s/%%server-key.pem%%/$SERVER_KEY_NAME/" $CONF_PATH/rsyslog.conf
+sed -i "s/%%_TLS_PORT_%%/$TLS_PORT_CONTAINER/" $CONF_PATH/rsyslog.conf
+```
+
+### Docker:
+```
+docker container stop $CONTAINER_NAME 
+docker build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/ -t $IMAGE_NAME .
+
+#run
+docker run -it --rm -h $SERVER_LOCAL --privileged --name $CONTAINER_NAME dev-syslog-tls
+docker run -it --rm -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:/var/log -p $TLS_PORT_HOST:$TLS_PORT_CONTAINER --name $CONTAINER_NAME $IMAGE_NAME
+
+#run in background
+docker run --restart always -d -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:/var/log -p $TLS_PORT_HOST:$TLS_PORT_CONTAINER --name $CONTAINER_NAME $IMAGE_NAME
+
+```
+### Docker Compose: 
+```
+docker-compose build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/
+docker-compose up -d #background
+docker-compose stop
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Export VARS
 ```
 export $(cat .env | egrep -v "(^#.*|^$)" | xargs)

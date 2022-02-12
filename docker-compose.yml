@@ -6,10 +6,11 @@ services:
     hostname: ${SERVER_LOCAL} 
     container_name: ${CONTAINER_NAME}
     restart: always
+    privileged: true
     volumes: 
       - "/var/logs:/var/log"
-      - "/etc/pki/rsyslog-docker:/etc/pki/rsyslog" 
+    
     ports: 
-      - 10514:10514
+      - ${TLS_PORT_HOST}:${TLS_PORT_CONTAINER}
     cap_add:
       - SYSLOG
