@@ -3,16 +3,13 @@ The variable file <.env> must be modified depending on the environment (#CA, #Se
 
 ### Generate certificates:
 ```
-chmod u+x ./generate-certificates.sh
+chmod u+x ./generate-certificates.sh ./generate-config.sh
 ./generate-certificates.sh
 ```
 
 ### Change Docker configuration:
 ```
-sed -i "s/%%ca.pem%%/ca.crt.pem/" $CONF_PATH/rsyslog.conf
-sed -i "s/%%server-cert.pem%%/$SERVER_LOCAL.crt.pem/" $CONF_PATH/rsyslog.conf
-sed -i "s/%%server-key.pem%%/$SERVER_LOCAL.key.pem/" $CONF_PATH/rsyslog.conf
-sed -i "s/%%_TLS_PORT_%%/$TLS_PORT_CONTAINER/" $CONF_PATH/rsyslog.conf
+./generate-config.sh
 ```
 ### Docker:
 ```
@@ -46,10 +43,7 @@ Certificates (CA.pem, certificate and server key) must be copied to the director
 
 ### Change Docker configuration:
 ```
-sed -i "s/%%ca.pem%%/$CA_NAME/" $CONF_PATH/rsyslog.conf
-sed -i "s/%%server-cert.pem%%/$SERVER_CRT_NAME/" $CONF_PATH/rsyslog.conf
-sed -i "s/%%server-key.pem%%/$SERVER_KEY_NAME/" $CONF_PATH/rsyslog.conf
-sed -i "s/%%_TLS_PORT_%%/$TLS_PORT_CONTAINER/" $CONF_PATH/rsyslog.conf
+./generate-config-exists-crt.sh
 ```
 
 ### Docker:
