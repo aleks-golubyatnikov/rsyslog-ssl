@@ -12,9 +12,11 @@ chmod u+x ./generate-certificates.sh ./generate-config.sh
 ./generate-config.sh
 ```
 
-### Copy certificates to local folder (in case of using VOLUME '/etc/pki/rsyslog/'):
+### Copy certificates, rsyslog.conf to local folder (in case of using VOLUME '/etc/rsyslog-docker/'):
 ```
-/etc/pki/rsyslog-docker/ #on HOST machine
+mkdir -p /etc/rsyslog-docker/pki/rsyslog
+cp ./rsyslog/config/rsyslog.conf /etc/rsyslog-docker/
+cp ./rsyslog/certificates/<ca.crt.pem> ./rsyslog/certificates/<server.crt.pem> ./rsyslog/certificates/<server.key.pem> /etc/rsyslog-docker/pki/rsyslog
 ```
 
 ### Docker:
