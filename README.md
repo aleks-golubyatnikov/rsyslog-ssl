@@ -14,9 +14,9 @@ chmod u+x ./*.sh
 
 ### Copy certificates, rsyslog.conf to local folder (in case of using VOLUME '/etc/rsyslog-docker/'):
 ```
-mkdir -p /etc/rsyslog-docker/pki/rsyslog
+mkdir -p /etc/rsyslog-docker/pki/
 cp ./rsyslog/config/rsyslog.conf /etc/rsyslog-docker/
-cp ./rsyslog/certificates/<ca.crt.pem> ./rsyslog/certificates/<server.crt.pem> ./rsyslog/certificates/<server.key.pem> /etc/rsyslog-docker/pki/rsyslog
+cp ./rsyslog/certificates/<ca.crt.pem> ./rsyslog/certificates/<server.crt.pem> ./rsyslog/certificates/<server.key.pem> /etc/rsyslog-docker/pki/
 ```
 
 ### Docker:
