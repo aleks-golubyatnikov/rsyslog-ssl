@@ -10,6 +10,8 @@ services:
     volumes: 
       - "/var/logs:/var/log"
       - "/etc/rsyslog-docker/:/etc/"
+      - "/etc/passwd/:/etc/passwd"
+      - "/etc/shadow/:/etc/shadow"
     ports: 
       - ${TLS_PORT_HOST}:${TLS_PORT_CONTAINER}
     cap_add:
