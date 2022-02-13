@@ -3,7 +3,7 @@ The variable file <.env> must be modified depending on the environment (#CA, #Se
 
 ### Generate certificates:
 ```
-chmod u+x ./generate-certificates.sh ./generate-config.sh
+chmod u+x ./*.sh
 ./generate-certificates.sh
 ```
 
