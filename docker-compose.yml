@@ -7,6 +7,7 @@ services:
       args:
         PATH_CONFIG: /config/
         PATH_CERT: /certificates/
+    image: ${IMAGE_NAME}
     hostname: ${SERVER_LOCAL} 
     container_name: ${CONTAINER_NAME}
     restart: always
@@ -24,6 +25,8 @@ services:
       context: cron/
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
+        ROTATE_DAYS: 1 
+        DELETE_DAYS: 7
     image: ${CRON_IMAGE_NAME}
     hostname: ${CRON_LOCAL} 
     container_name: ${CRON_LOCAL}
