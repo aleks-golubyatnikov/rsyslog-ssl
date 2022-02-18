@@ -26,8 +26,5 @@ services:
     restart: always
     privileged: true
     volumes: 
-      - /etc/rsyslog-docker/cron/15min:/etc/periodic/15min/:ro
-      - /etc/rsyslog-docker/cron/daily:/etc/periodic/dayli/:ro
-    cap_add:
-      - CRON
-     
+      - "/var/logs/agentlogs-tls/:/var/log/agentlogs-tls/"
+          
