@@ -31,6 +31,10 @@ docker run -it --rm -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:
 #run in background
 docker run --restart always -d -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:/var/log -p $TLS_PORT_HOST:$TLS_PORT_CONTAINER --name $CONTAINER_NAME $IMAGE_NAME
 
+#cron
+docker build --build-arg ALPINE_VERSION=3.15 -t dev-cron .
+docker run -it --rm -h cron-docker --cap-add CRON --privileged -v /etc/rsyslog-docker/cron/15min:/etc/periodic/15min/ --name dev-cron-app dev-cron
+
 ```
 ### Docker Compose: 
 ```

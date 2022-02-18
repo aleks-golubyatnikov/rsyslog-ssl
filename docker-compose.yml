@@ -14,3 +14,20 @@ services:
       - ${TLS_PORT_HOST}:${TLS_PORT_CONTAINER}
     cap_add:
       - SYSLOG
+  
+  cron-app:
+    build:  
+      context: cron/
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION}
+    image: ${CRON_IMAGE_NAME}
+    hostname: ${CRON_LOCAL} 
+    container_name: ${CRON_LOCAL}
+    restart: always
+    privileged: true
+    volumes: 
+      - /etc/rsyslog-docker/cron/15min:/etc/periodic/15min/:ro
+      - /etc/rsyslog-docker/cron/daily:/etc/periodic/dayli/:ro
+    cap_add:
+      - CRON
+     
