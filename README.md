@@ -83,32 +83,6 @@ docker-compose up -d #background
 docker-compose stop
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Export VARS
 ```
 export $(cat .env | egrep -v "(^#.*|^$)" | xargs)
@@ -176,4 +150,3 @@ certtool --generate-certificate --load-request request.pem --outfile rsyslog-ser
  - Enter a dnsName of the subject of the certificate: rsyslog-server.com
  - Is this a TLS web client certificate? (y/N): y
  - Is this also a TLS web server certificate? (y/N): y
-
