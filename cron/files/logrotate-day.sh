@@ -2,8 +2,8 @@
 
 ROTATE_DAYS=$AGE_DAYS
 DELETE_DAYS=$DEL_DAYS
-PATH_FILES=/var/logs/agentlogs-tls/
-PATH_LOG_FILE=/var/logs/agentlogs-tls/cron-day.log
+PATH_FILES=$APP_PATH_FILES
+PATH_LOG_FILE=$APP_PATH_LOG_FILE
 
 for d in $(find $PATH_FILES -mindepth 1 -maxdepth 1 -type d)
 do

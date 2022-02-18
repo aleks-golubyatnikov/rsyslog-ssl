@@ -27,6 +27,8 @@ services:
         ALPINE_VERSION: ${ALPINE_VERSION}
         ROTATE_DAYS: 1 
         DELETE_DAYS: 7
+        PATH_FILES: /var/log/agentlogs-tls/
+        PATH_LOG_FILE: /var/log/agentlogs-tls/cron-day.log
     image: ${CRON_IMAGE_NAME}
     hostname: ${CRON_LOCAL} 
     container_name: ${CRON_LOCAL}
@@ -35,6 +37,8 @@ services:
     environment:
       AGE_DAYS: 1 
       DEL_DAYS: 14  
+      APP_PATH_FILES: /var/log/agentlogs-tls/
+      APP_PATH_LOG_FILE: /var/log/agentlogs-tls/cron-day.log
     volumes: 
       - "/var/logs/agentlogs-tls/:/var/log/agentlogs-tls/"
     depends_on:
