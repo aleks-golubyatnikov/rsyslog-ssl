@@ -32,6 +32,9 @@ services:
     container_name: ${CRON_LOCAL}
     restart: always
     privileged: true
+    environment:
+      ROTATE_DAYS: 1 
+      DELETE_DAYS: 7  
     volumes: 
       - "/var/logs/agentlogs-tls/:/var/log/agentlogs-tls/"
     depends_on:
