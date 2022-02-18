@@ -27,4 +27,5 @@ services:
     privileged: true
     volumes: 
       - "/var/logs/agentlogs-tls/:/var/log/agentlogs-tls/"
-          
+    depends_on:
+      - syslogserver-tls

@@ -32,12 +32,11 @@ docker run -it --rm -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:
 docker run --restart always -d -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v /var/logs:/var/log -p $TLS_PORT_HOST:$TLS_PORT_CONTAINER --name $CONTAINER_NAME $IMAGE_NAME
 
 #cron
-docker build --build-arg ALPINE_VERSION=3.15 -t dev-cron .
-docker run -it --rm -h cron-docker --privileged -v /var/logs/agentlogs-tls/:/var/log/agentlogs-tls/ --name dev-cron-app dev-cron
-docker run -it -d -h cron-docker --privileged -v /var/logs/agentlogs-tls/:/var/log/agentlogs-tls/ --name dev-cron-app dev-cron
-
-
+docker build --build-arg ALPINE_VERSION=$ALPINE_VERSION -t $CRON_IMAGE_NAME .
+docker run -it --rm -h $CRON_LOCAL --privileged -v /var/logs/agentlogs-tls/:/var/log/agentlogs-tls/ --name $CRON_CONTAINER_NAME $CRON_IMAGE_NAME
+docker run -it -d -h cron-docker --privileged -v /var/logs/agentlogs-tls/:/var/log/agentlogs-tls/ --name $CRON_CONTAINER_NAME $CRON_IMAGE_NAME
 ```
+
 ### Docker Compose: 
 ```
 docker-compose build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/
