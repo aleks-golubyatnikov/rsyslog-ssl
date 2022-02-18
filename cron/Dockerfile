@@ -9,8 +9,8 @@ FROM alpine:$ALPINE_VERSION
 
 COPY files/logrotate-day.sh /etc/periodic/daily/
 
-RUN chmod a+x /etc/periodic/daily/logrotate-day.sh && \
-    sed -i "s/ROTATE_DAYS=1/ROTATE_DAYS=$ROTATE_DAYS/" /etc/periodic/daily/logrotate-day.sh && \ 
-    sed -i "s/DELETE_DAYS=30/DELETE_DAYS=$DELETE_DAYS/" /etc/periodic/daily/logrotate-day.sh
+RUN chmod a+x /etc/periodic/daily/logrotate-day.sh
+RUN sed -i "s/ROTATE_DAYS=1/ROTATE_DAYS=$ROTATE_DAYS/" /etc/periodic/daily/logrotate-day.sh 
+RUN sed -i "s/DELETE_DAYS=30/DELETE_DAYS=$DELETE_DAYS/" /etc/periodic/daily/logrotate-day.sh
 
 ENTRYPOINT ["crond","-f","-l","8"]
