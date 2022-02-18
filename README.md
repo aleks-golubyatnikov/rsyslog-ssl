@@ -39,7 +39,7 @@ docker run -it -d -h cron-docker --privileged -v /var/logs/agentlogs-tls/:/var/l
 
 ### Docker Compose: 
 ```
-docker-compose build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/
+docker-compose build
 docker-compose up -d #background
 docker-compose stop
 ```
@@ -78,7 +78,7 @@ docker run --restart always -d -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v
 ```
 ### Docker Compose: 
 ```
-docker-compose build --build-arg PATH_CONFIG=/config/ --build-arg PATH_CERT=/certificates/
+docker-compose build
 docker-compose up -d #background
 docker-compose stop
 ```

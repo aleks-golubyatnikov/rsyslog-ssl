@@ -2,7 +2,11 @@ version: "3.7"
  
 services: 
   syslogserver-tls: 
-    build: rsyslog/ 
+    build:
+      context: rsyslog/
+      args:
+        PATH_CONFIG: /config/
+        PATH_CERT: /certificates/
     hostname: ${SERVER_LOCAL} 
     container_name: ${CONTAINER_NAME}
     restart: always
