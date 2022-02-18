@@ -1,7 +1,7 @@
 #!/bin/sh
 
-ROTATE_DAYS=%AGE_DAYS%
-DELETE_DAYS=%DEL_DAYS%
+ROTATE_DAYS=$ROTATE_DAYS
+DELETE_DAYS=$DELETE_DAYS
 PATH_FILES=/var/logs/agentlogs-tls/
 PATH_LOG_FILE=/var/logs/agentlogs-tls/cron-day.log
 

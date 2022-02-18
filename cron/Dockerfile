@@ -9,8 +9,6 @@ ENV DELETE_DAYS=$DELETE_DAYS
 
 COPY files/logrotate-day.sh /etc/periodic/daily/
 
-RUN chmod a+x /etc/periodic/daily/logrotate-day.sh && \
-    sed -i "s/%AGE_DAYS%/$ROTATE_DAYS/" /etc/periodic/daily/logrotate-day.sh && \ 
-    sed -i "s/%DEL_DAYS%/$DELETE_DAYS/" /etc/periodic/daily/logrotate-day.sh
+RUN chmod a+x /etc/periodic/daily/logrotate-day.sh
 
 ENTRYPOINT ["crond","-f","-l","8"]
