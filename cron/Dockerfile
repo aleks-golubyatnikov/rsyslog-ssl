@@ -13,6 +13,6 @@ ENV APP_PATH_LOG_FILE=$PATH_LOG_FILE
 
 COPY files/logrotate-day.sh /etc/periodic/daily/
 
-RUN chmod a+x /etc/periodic/daily/logrotate-day.sh
+RUN apk update && apk add nano && chmod a+x /etc/periodic/daily/logrotate-day.sh
 
 ENTRYPOINT ["crond","-f","-l","8"]
