@@ -29,6 +29,8 @@ services:
         DELETE_DAYS: 7
         PATH_FILES: /var/log/agentlogs-tls/
         PATH_LOG_FILE: /var/log/agentlogs-tls/cron-day.log
+        MAX_DEPTH_DIR: 1
+        MAX_DEPTH_FILES: 2
     image: ${CRON_IMAGE_NAME}
     hostname: ${CRON_LOCAL} 
     container_name: ${CRON_LOCAL}
@@ -39,6 +41,8 @@ services:
       DEL_DAYS: 14  
       APP_PATH_FILES: /var/log/agentlogs-tls/
       APP_PATH_LOG_FILE: /var/log/agentlogs-tls/cron-day.log
+      DEPTH_DIR: 1
+      DEPTH_FILES: 2
     volumes: 
       - "/var/logs/agentlogs-tls/:/var/log/agentlogs-tls/"
     depends_on:
