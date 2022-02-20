@@ -18,7 +18,10 @@ ENV TEMPLATE_PATH=$SERVER_TEMPLATE_PATH
 RUN apt-get update && apt-get install -y rsyslog rsyslog-gnutls gnutls-bin nano
 RUN mv /etc/rsyslog.conf /etc/rsyslog.example
 
-COPY config/rsyslog.conf /etc/rsyslog/rsyslog.conf
+COPY config/rsyslog.conf /etc/rsyslog.conf
+COPY start.sh /start.sh
+
+RUN chmod 775 /start.sh
 #COPY $PATH_CERT/ /etc/rsyslog/pki/
 
-ENTRYPOINT ["rsyslogd", "-n", "-f",  "/etc/rsyslog/rsyslog.conf"]
+ENTRYPOINT ["/start.sh"]

@@ -23,7 +23,7 @@ services:
       CA_PATH: /etc/rsyslog/pki/ca.crt.pem 
       CERT_PATH: /etc/rsyslog/pki/server.internal.com.crt.pem 
       KEY_PATH: /etc/rsyslog/pki/server.internal.com.key.pem
-      TEMPLATE_PATH: /var/log/agentlogs-tls/%FROMHOST-IP%/%APP-NAME%/%PROGRAMNAME%.log 
+      TEMPLATE_PATH: /var/log/agentlogs-tls/%FROMHOST-IP%/%APP-NAME%/%PROGRAMNAME%.log
     volumes: 
       - "/var/logs:/var/log"
       - "/etc/rsyslog-docker/:/etc/rsyslog/"
