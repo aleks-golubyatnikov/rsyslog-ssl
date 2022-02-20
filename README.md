@@ -39,9 +39,10 @@ docker run -it -d -h cron-docker --privileged -v /var/logs/agentlogs-tls/:/var/l
 
 ### Docker Compose: 
 ```
-docker-compose build
-docker-compose up -d #background
-docker-compose stop
+docker-compose -f ./docker-compose-dev.yml build
+
+docker-compose -f ./docker-compose-prod.yml up -d
+docker-compose -f ./docker-compose-prod.yml stop
 ```
 
 ## 2: Using existing certificates:
@@ -78,9 +79,10 @@ docker run --restart always -d -h $SERVER_LOCAL --cap-add SYSLOG --privileged -v
 ```
 ### Docker Compose: 
 ```
-docker-compose build
-docker-compose up -d #background
-docker-compose stop
+docker-compose -f ./docker-compose-dev.yml build
+
+docker-compose -f ./docker-compose-prod.yml up -d
+docker-compose -f ./docker-compose-prod.yml stop
 ```
 
 ### Export VARS
