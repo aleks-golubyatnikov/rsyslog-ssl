@@ -26,7 +26,7 @@ services:
       TEMPLATE_PATH: /var/log/agentlogs-tls/%FROMHOST-IP%/%APP-NAME%/%PROGRAMNAME%.log 
     volumes: 
       - "/var/logs:/var/log"
-      #- "/etc/rsyslog-docker/:/etc/rsyslog/"
+      - "/etc/rsyslog-docker/:/etc/rsyslog/"
     ports: 
       - ${TLS_PORT_HOST}:${TLS_PORT_CONTAINER}
     cap_add:
