@@ -6,7 +6,6 @@ ARG PATH_LOG_FILE
 ARG MAX_DEPTH_DIR
 ARG MAX_DEPTH_FILES
 
-
 FROM alpine:$ALPINE_VERSION
 
 ENV AGE_DAYS=$ROTATE_DAYS
@@ -15,6 +14,7 @@ ENV APP_PATH_FILES=$PATH_FILES
 ENV APP_PATH_LOG_FILE=$PATH_LOG_FILE
 ENV DEPTH_DIR=$MAX_DEPTH_DIR
 ENV DEPTH_FILES=$MAX_DEPTH_FILES
+
 COPY files/logrotate-day.sh /etc/periodic/daily/
 
 RUN apk update && apk add nano && chmod a+x /etc/periodic/daily/logrotate-day.sh

@@ -1,17 +1,30 @@
 version: "3.7"
  
 services: 
-  syslogserver-tls: 
+  syslogserver-tls:
     build:
       context: rsyslog/
-      args:
+      args: #default options for build
         PATH_CONFIG: /config/
-        PATH_CERT: /certificates/
-    image: ${IMAGE_NAME}
+        #PATH_CERT: /certificates/
+        MAX_SESSIONS: ${MAX_SESSIONS}
+        TLS_PORT_CONTAINER: ${TLS_PORT_CONTAINER}
+        SERVER_CA_PATH: /etc/rsyslog/pki/${CA_CRT_NAME}
+        SERVER_CERT_PATH: /etc/rsyslog/pki/${SERVER_LOCAL}.crt.pem
+        SERVER_KEY_PATH: /etc/rsyslog/pki/${SERVER_LOCAL}.key.pem
+        SERVER_TEMPLATE_PATH: /var/log/agentlogs-tls/%FROMHOST-IP%/%APP-NAME%/%PROGRAMNAME%.log 
+    image: ${IMAGE_NAME}:latest
     hostname: ${SERVER_LOCAL} 
     container_name: ${CONTAINER_NAME}
     restart: always
     privileged: true
+    environment: #options for production
+      MAX_TCP_SESSIONS: 2000 
+      TLS_PORT: 10514
+      CA_PATH: /etc/rsyslog/pki/ca.crt.pem 
+      CERT_PATH: /etc/rsyslog/pki/server.internal.com.crt.pem 
+      KEY_PATH: /etc/rsyslog/pki/server.internal.com.key.pem
+      TEMPLATE_PATH: /var/log/agentlogs-tls/%FROMHOST-IP%/%APP-NAME%/%PROGRAMNAME%.log 
     volumes: 
       - "/var/logs:/var/log"
       - "/etc/rsyslog-docker/:/etc/rsyslog/"
@@ -23,20 +36,20 @@ services:
   cron-app:
     build:  
       context: cron/
-      args:
+      args: #default options for build
         ALPINE_VERSION: ${ALPINE_VERSION}
-        ROTATE_DAYS: 1 
-        DELETE_DAYS: 7
+        ROTATE_DAYS: ${ROTATE_DAYS} 
+        DELETE_DAYS: ${DELETE_DAYS}
         PATH_FILES: /var/log/agentlogs-tls/
         PATH_LOG_FILE: /var/log/agentlogs-tls/cron-day.log
-        MAX_DEPTH_DIR: 1
-        MAX_DEPTH_FILES: 2
-    image: ${CRON_IMAGE_NAME}
+        MAX_DEPTH_DIR: ${MAX_DEPTH_DIR}
+        MAX_DEPTH_FILES: ${MAX_DEPTH_FILES}
+    image: ${CRON_IMAGE_NAME}:latest
     hostname: ${CRON_LOCAL} 
     container_name: ${CRON_LOCAL}
     restart: always
     privileged: true
-    environment:
+    environment: #options for production
       AGE_DAYS: 1 
       DEL_DAYS: 14  
       APP_PATH_FILES: /var/log/agentlogs-tls/
