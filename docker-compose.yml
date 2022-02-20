@@ -5,7 +5,7 @@ services:
     build:
       context: rsyslog/
       args: #default options for build
-        PATH_CONFIG: /config/
+        PATH_CONFIG: ./config/
         #PATH_CERT: /certificates/
         MAX_SESSIONS: ${MAX_SESSIONS}
         TLS_PORT_CONTAINER: ${TLS_PORT_CONTAINER}
