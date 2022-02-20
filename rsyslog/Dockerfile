@@ -15,13 +15,12 @@ ENV CERT_PATH=$SERVER_CERT_PATH
 ENV KEY_PATH=$SERVER_KEY_PATH
 ENV TEMPLATE_PATH=$SERVER_TEMPLATE_PATH
 
-RUN apt-get update && apt-get install -y rsyslog rsyslog-gnutls gnutls-bin nano
-RUN mv /etc/rsyslog.conf /etc/rsyslog.example
+RUN apt-get update && apt-get install -y rsyslog rsyslog-gnutls gnutls-bin nano && mv /etc/rsyslog.conf /etc/rsyslog.example
 
 COPY config/rsyslog.conf /etc/rsyslog.conf
 COPY start.sh /start.sh
+#COPY $PATH_CERT/ /etc/rsyslog/pki/
 
 RUN chmod 775 /start.sh
-#COPY $PATH_CERT/ /etc/rsyslog/pki/
 
 ENTRYPOINT ["/start.sh"]
