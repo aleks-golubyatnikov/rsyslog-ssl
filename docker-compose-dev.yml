@@ -18,7 +18,7 @@ services:
     restart: always
     privileged: true
     environment: #options for production
-      MAX_TCP_SESSIONS: 2000 
+      MAX_TCP_SESSIONS: 3000 
       TLS_PORT: 10514
       CA_PATH: /etc/rsyslog/pki/ca.crt.pem 
       CERT_PATH: /etc/rsyslog/pki/server.internal.com.crt.pem 

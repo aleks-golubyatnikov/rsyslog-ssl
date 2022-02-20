@@ -1,0 +1,41 @@
+version: "3.7"
+ 
+services: 
+  syslogserver-tls:
+    image: dev-syslog-tls:latest
+    hostname: server.internal.com 
+    container_name: rsyslog-tls
+    restart: always
+    privileged: true
+    environment:
+      MAX_TCP_SESSIONS: 1000 
+      TLS_PORT: 10514
+      CA_PATH: /etc/rsyslog/pki/ca.crt.pem 
+      CERT_PATH: /etc/rsyslog/pki/server.internal.com.crt.pem 
+      KEY_PATH: /etc/rsyslog/pki/server.internal.com.key.pem
+      TEMPLATE_PATH: /var/log/agentlogs-tls/%FROMHOST-IP%/%APP-NAME%/%PROGRAMNAME%.log
+    volumes: 
+      - "/var/logs:/var/log" #syslogs inside
+      - "/etc/rsyslog-docker/:/etc/rsyslog/" #certs inside
+    ports: 
+      - 10514:10514
+    cap_add:
+      - SYSLOG
+  
+  cron-app:
+    image: dev-cron:latest
+    hostname: cron-docker 
+    container_name: cron-docker
+    restart: always
+    privileged: true
+    environment:
+      AGE_DAYS: 1 
+      DEL_DAYS: 7  
+      APP_PATH_FILES: /var/log/agentlogs-tls/
+      APP_PATH_LOG_FILE: /var/log/agentlogs-tls/cron-day.log
+      DEPTH_DIR: 1
+      DEPTH_FILES: 2
+    volumes: 
+      - "/var/logs/agentlogs-tls/:/var/log/agentlogs-tls/" #syslogs inside
+    depends_on:
+      - syslogserver-tls
